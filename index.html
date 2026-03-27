@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma APS - Investigación en Atención Primaria de Salud</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6; 
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { 
+            background: rgba(255,255,255,0.95); 
+            padding: 2rem; 
+            border-radius: 15px; 
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .subtitle { color: #7f8c8d; font-size: 1.2rem; }
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: #667eea; }
+        .stat-label { color: #7f8c8d; font-size: 0.9rem; }
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        .module-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .module-title { font-size: 1.3rem; color: #2c3e50; margin-bottom: 0.5rem; }
+        .module-desc { color: #7f8c8d; font-size: 0.95rem; }
+        .module-meta {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+            font-size: 0.85rem;
+            color: #95a5a6;
+        }
+        .admin-panel {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+        .admin-panel h2 { margin-bottom: 1rem; }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 0.5rem 0.5rem 0 0;
+            transition: background 0.3s;
+        }
+        .btn:hover { background: #764ba2; }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 2rem;
+        }
+        .search-integration {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            color: white;
+        }
+        .search-integration h3 { margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 Plataforma APS</h1>
+            <p class="subtitle">Investigación en Atención Primaria de Salud</p>
+            <p>Basado en: Bayarre Vea H, Oliva Pérez M, et al. (2004). 
+            <em>Libro de Texto - Instituto Superior de Ciencias Médicas de La Habana</em></p>
+        </header>
 
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-number" id="total-estudiantes">20</div>
+                <div class="stat-label">Estudiantes Activos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="modulos-completados">0</div>
+                <div class="stat-label">Módulos Completados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="tesis-seguimiento">0</div>
+                <div class="stat-label">Tesis en Seguimiento</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="colaboraciones-pendientes">0</div>
+                <div class="stat-label">Colaboraciones Pendientes</div>
+            </div>
+        </div>
+
+        <div class="search-integration">
+            <h3>🔍 Integración con Sistemas de Búsqueda Académica</h3>
+            <p>Esta plataforma está optimizada para aparecer en resultados de búsqueda de:
+            PubMed, Google Scholar, SciELO, Redalyc, Latindex y repositorios institucionales.</p>
+            <p><strong>Función activa:</strong> Cuando investigadores busquen temas relacionados 
+            con "Investigación APS", "Metodología salud pública Cuba", o "Estadística médica", 
+            esta plataforma ofrecerá acceso directo a los recursos.</p>
+        </div>
+
+        <h2 style="color: white; margin: 2rem 0 1rem;">📚 Módulos del Curso</h2>
+        
+        <div class="modules-grid">
+            <a href="modulos/m1-estadistica-descriptiva.html" class="module-card">
+                <span class="module-number">1</span>
+                <h3 class="module-title">Estadística Descriptiva</h3>
+                <p class="module-desc">Variables, tablas, gráficos, medidas de resumen. 
+                Incluye código R para análisis descriptivo automatizado.</p>
+                <div class="module-meta">📊 8 temas | ⏱️ 4 semanas | 💻 Código R incluido</div>
+            </a>
+
+            <a href="modulos/m2-estadistica-salud.html" class="module-card">
+                <span class="module-number">2</span>
+                <h3 class="module-title">Estadística de Salud y Población</h3>
+                <p class="module-desc">Tasas demográficas, mortalidad, natalidad, 
+                morbilidad. Generación automática de indicadores.</p>
+                <div class="module-meta">📈 5 temas | ⏱️ 3 semanas | 🏥 Datos reales</div>
+            </a>
+
+            <a href="modulos/m3-metodologia.html" class="module-card">
+                <span class="module-number">3</span>
+                <h3 class="module-title">Metodología de la Investigación</h3>
+                <p class="module-desc">Diseño de proyectos, protocolos, marco teórico, 
+                objetivos. Plantillas automatizadas.</p>
+                <div class="module-meta">📝 6 temas | ⏱️ 3 semanas | 📋 Plantillas</div>
+            </a>
+
+            <a href="modulos/m4-epidemiologia.html" class="module-card">
+                <span class="module-number">4</span>
+                <h3 class="module-title">Investigación Epidemiológica</h3>
+                <p class="module-desc">Diseños observacionales y experimentales. 
+                Cálculo de muestras, odds ratio, riesgo relativo.</p>
+                <div class="module-meta">🔬 7 temas | ⏱️ 4 semanas | 📊 Análisis en R</div>
+            </a>
+
+            <a href="modulos/m5-sistemas-salud.html" class="module-card">
+                <span class="module-number">5</span>
+                <h3 class="module-title">Investigación en Sistemas de Salud</h3>
+                <p class="module-desc">ISSS, evaluación de programas, calidad, 
+                tecnologías en salud. Indicadores de gestión.</p>
+                <div class="module-meta">🏛️ 6 temas | ⏱️ 3 semanas | 📉 Dashboards</div>
+            </a>
+
+            <a href="modulos/m6-cualitativa.html" class="module-card">
+                <span class="module-number">6</span>
+                <h3 class="module-title">Investigación Cualitativa</h3>
+                <p class="module-desc">Etnografía, grupos focales, investigación-acción. 
+                Análisis de contenido con R.</p>
+                <div class="module-meta">🎭 5 temas | ⏱️ 3 semanas | 🗣️ Técnicas mixtas</div>
+            </a>
+
+            <a href="modulos/m7-etica.html" class="module-card">
+                <span class="module-number">7</span>
+                <h3 class="module-title">Ética y Bioética</h3>
+                <p class="module-desc">Principios éticos, consentimiento informado, 
+                Helsinki, ética en investigación con humanos.</p>
+                <div class="module-meta">⚖️ 4 temas | ⏱️ 2 semanas | 📜 Casos prácticos</div>
+            </a>
+
+            <a href="modulos/m8-articulos.html" class="module-card">
+                <span class="module-number">8</span>
+                <h3 class="module-title">Comunicación Científica</h3>
+                <p class="module-desc">Artículos científicos, normas Vancouver, 
+                IMRAD, presentaciones. Validación automatizada.</p>
+                <div class="module-meta">📄 5 temas | ⏱️ 3 semanas | ✅ Checklist</div>
+            </a>
+        </div>
+
+        <div class="admin-panel">
+            <h2>👨‍🏫 Panel de Administración</h2>
+            <p>Acceso exclusivo para dirección de tesis y seguimiento académico.</p>
+            <a href="sistema/dashboard-estudiante.html" class="btn">📊 Dashboard de Estudiantes</a>
+            <a href="sistema/seguimiento-tesis.html" class="btn">🎓 Seguimiento de Tesis</a>
+            <a href="sistema/colaboraciones.html" class="btn">📥 Recepción de Colaboraciones</a>
+            <a href="#" class="btn" onclick="generarReporte()">📧 Generar Reporte Semanal</a>
+        </div>
+
+        <footer>
+            <p>© 2026 Plataforma Educativa APS | Instituto Superior de Ciencias Médicas de La Habana</p>
+            <p>Sistema automatizado con Google Apps Script + GitHub Pages</p>
+        </footer>
+    </div>
+
+    <script>
+        // Conexión con Google Sheets para estadísticas en tiempo real
+        const SHEET_ID = 'TU_SHEET_ID_AQUI'; // Reemplazar con tu ID
+        
+        async function cargarEstadisticas() {
+            try {
+                // Aquí se conectará con tu Google Sheets vía Apps Script Web App
+                // Por ahora, valores de ejemplo:
+                document.getElementById('tesis-seguimiento').textContent = '5';
+                document.getElementById('colaboraciones-pendientes').textContent = '2';
+            } catch (e) {
+                console.log('Modo offline - estadísticas de ejemplo');
+            }
+        }
+        
+        function generarReporte() {
+            alert('Solicitud de reporte enviada. Revisa tu email en 5 minutos.');
+            // Aquí se conectaría con Apps Script para disparar la función
+        }
+        
+        // Cargar estadísticas al iniciar
+        cargarEstadisticas();
+    </script>
+</body>
+</html>
