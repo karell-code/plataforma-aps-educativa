@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - KKK</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="logo">
+                <h2>KKK - Plataforma Educativa</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Mis Cursos</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="colaboraciones.html">Colaboraciones</a></li>
+                <li><a href="#" id="logout-btn">Cerrar Sesión</a></li>
+            </ul>
+            <div class="user-info">
+                <div class="user-avatar" id="user-initials">E</div>
+                <span id="user-name">Estudiante</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header>
+            <h1>Servicios de Asesoramiento e Investigación</h1>
+            <p>Apoyo especializado para tu desarrollo académico y profesional</p>
+        </header>
+
+        <!-- Services Grid -->
+        <div class="dashboard-grid">
+            <!-- Service 1: Asesoría de Tesis -->
+            <div class="service-card">
+                <span class="course-icon">🎓</span>
+                <h3>Asesoramiento de Tesis</h3>
+                <p>Guía personalizada para el desarrollo de tu trabajo de graduación:</p>
+                <ul>
+                    <li>Diseño del protocolo de investigación</li>
+                    <li>Metodología y análisis estadístico</li>
+                    <li>Redacción y formato académico</li>
+                    <li>Preparación para defensa</li>
+                </ul>
+                <button class="btn btn-full" onclick="solicitarServicio('Asesoramiento de Tesis')">Solicitar Información</button>
+            </div>
+
+            <!-- Service 2: Consultoría Estadística -->
+            <div class="service-card">
+                <span class="course-icon">📊</span>
+                <h3>Consultoría Estadística</h3>
+                <p>Análisis de datos para investigaciones en salud:</p>
+                <ul>
+                    <li>Análisis descriptivo e inferencial</li>
+                    <li>Modelos de regresión</li>
+                    <li>Análisis de supervivencia</li>
+                    <li>Meta-análisis</li>
+                </ul>
+                <button class="btn btn-full" onclick="solicitarServicio('Consultoría Estadística')">Solicitar Información</button>
+            </div>
+
+            <!-- Service 3: Revisión de Artículos -->
+            <div class="service-card">
+                <span class="course-icon">📝</span>
+                <h3>Revisión de Artículos Científicos</h3>
+                <p>Evaluación y mejora de manuscritos antes de enviar a revistas:</p>
+                <ul>
+                    <li>Revisión metodológica</li>
+                    <li>Corrección de estilo académico</li>
+                    <li>Verificación de referencias</li>
+                    <li>Recomendaciones de revistas</li>
+                </ul>
+                <button class="btn btn-full" onclick="solicitarServicio('Revisión de Artículos')">Solicitar Información</button>
+            </div>
+
+            <!-- Service 4: Talleres Especializados -->
+            <div class="service-card">
+                <span class="course-icon">👨‍🏫</span>
+                <h3>Talleres Especializados</h3>
+                <p>Capacitaciones presenciales o virtuales sobre temas específicos:</p>
+                <ul>
+                    <li>Software estadístico (R, SPSS, Stata)</li>
+                    <li>Metodología de investigación</li>
+                    <li>Redacción científica</li>
+                    <li>Ética en investigación</li>
+                </ul>
+                <button class="btn btn-full" onclick="solicitarServicio('Talleres Especializados')">Solicitar Información</button>
+            </div>
+
+            <!-- Service 5: Diseño de Instrumentos -->
+            <div class="service-card">
+                <span class="course-icon">📋</span>
+                <h3>Diseño y Validación de Instrumentos</h3>
+                <p>Desarrollo de herramientas de recolección de datos:</p>
+                <ul>
+                    <li>Cuestionarios y encuestas</li>
+                    <li>Validación de contenido</li>
+                    <li>Pruebas piloto</li>
+                    <li>Análisis de confiabilidad</li>
+                </ul>
+                <button class="btn btn-full" onclick="solicitarServicio('Diseño de Instrumentos')">Solicitar Información</button>
+            </div>
+
+            <!-- Service 6: Mentoría Académica -->
+            <div class="service-card">
+                <span class="course-icon">🧭</span>
+                <h3>Mentoría Académica Personalizada</h3>
+                <p>Acompañamiento continuo en tu carrera investigativa:</p>
+                <ul>
+                    <li>Planificación de ruta académica</li>
+                    <li>Desarrollo de habilidades investigativas</li>
+                    <li>Orientación para publicaciones</li>
+                    <li>Preparación para posgrados</li>
+                </ul>
+                <button class="btn btn-full" onclick="solicitarServicio('Mentoría Académica')">Solicitar Información</button>
+            </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div style="margin-top: 3rem; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+            <h2 style="color: #2c3e50; margin-bottom: 1rem;">Modalidades de Servicio</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div>
+                    <h3 style="color: #3498db; margin-bottom: 0.5rem;">🔵 Remuneradas</h3>
+                    <p style="color: #7f8c8d;">Servicios profesionales con tarifa especial para estudiantes y egresados.</p>
+                </div>
+                <div>
+                    <h3 style="color: #27ae60; margin-bottom: 0.5rem;">🟢 No Remuneradas</h3>
+                    <p style="color: #7f8c8d;">Asesorías básicas incluidas en la matrícula de cursos seleccionados.</p>
+                </div>
+                <div>
+                    <h3 style="color: #f39c12; margin-bottom: 0.5rem;">🟡 Por Convenio</h3>
+                    <p style="color: #7f8c8d;">Servicios disponibles mediante acuerdos institucionales.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div style="margin-top: 2rem; text-align: center; padding: 2rem; background: linear-gradient(135deg, #2c3e50, #3498db); color: white; border-radius: 10px;">
+            <h2 style="margin-bottom: 1rem;">¿Tienes preguntas?</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Contacta directamente al profesor para discutir tus necesidades específicas</p>
+            <p style="font-size: 1.2rem;"><strong>karell0079@gmail.com</strong></p>
+            <p>ORCID: 0000-0003-3860-5702</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 KKK - Todos los derechos reservados</p>
+            <p>Prof. Karell Rafael Vazquez Argote | karell0079@gmail.com</p>
+            <p>ORCID: <a href="https://orcid.org/my-orcid?orcid=0000-0003-3860-5702" target="_blank">0000-0003-3860-5702</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Verificar autenticación
+        function checkAuth() {
+            const email = localStorage.getItem('studentEmail');
+            const code = localStorage.getItem('studentCode');
+            
+            if (!email || !code) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            
+            document.getElementById('user-name').textContent = localStorage.getItem('studentName') || 'Estudiante';
+            document.getElementById('user-initials').textContent = (localStorage.getItem('studentName') || 'E')[0].toUpperCase();
+            
+            return true;
+        }
+
+        // Solicitar servicio
+        function solicitarServicio(servicio) {
+            const studentName = localStorage.getItem('studentName') || 'Estudiante';
+            const studentEmail = localStorage.getItem('studentEmail') || '';
+            
+            const subject = encodeURIComponent(`Solicitud: ${servicio}`);
+            const body = encodeURIComponent(`Estimado Prof. Vazquez,\n\nMi nombre es ${studentName}.\n\nEstoy interesado en recibir información sobre el servicio de: ${servicio}.\n\nQuedo atento a su respuesta.\n\nSaludos cordiales.`);
+            
+            window.location.href = `mailto:karell0079@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        // Cerrar sesión
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = 'index.html';
+        });
+
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+    </script>
+</body>
+</html>

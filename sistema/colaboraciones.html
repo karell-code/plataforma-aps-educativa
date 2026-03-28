@@ -1,1 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colaboraciones - KKK</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="logo">
+                <h2>KKK - Plataforma Educativa</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../dashboard.html">Mis Cursos</a></li>
+                <li><a href="../servicios.html">Servicios</a></li>
+                <li><a href="colaboraciones.html">Colaboraciones</a></li>
+                <li><a href="#" id="logout-btn">Cerrar Sesión</a></li>
+            </ul>
+            <div class="user-info">
+                <div class="user-avatar" id="user-initials">E</div>
+                <span id="user-name">Estudiante</span>
+            </div>
+        </div>
+    </nav>
 
+    <main class="container">
+        <header>
+            <h1>Colaboraciones y Redes de Investigación</h1>
+            <p>Únete a nuestra comunidad académica y participa en proyectos colaborativos</p>
+        </header>
+
+        <!-- Collaboration Opportunities -->
+        <div style="margin-bottom: 3rem;">
+            <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Oportunidades de Colaboración</h2>
+            
+            <div class="service-card">
+                <h3>🤝 Proyectos de Investigación Conjunta</h3>
+                <p>Participa en investigaciones multicéntricas con colegas de diferentes instituciones:</p>
+                <ul>
+                    <li>Estudios epidemiológicos nacionales e internacionales</li>
+                    <li>Revisiones sistemáticas y meta-análisis colaborativos</li>
+                    <li>Proyectos de innovación en educación en salud</li>
+                    <li>Investigación traslacional aplicada</li>
+                </ul>
+                <button class="btn" onclick="expresarInteres('Proyectos de Investigación Conjunta')">Expresar Interés</button>
+            </div>
+
+            <div class="service-card">
+                <h3>📚 Grupos de Lectura Crítica</h3>
+                <p>Participa en sesiones periódicas de discusión de artículos científicos:</p>
+                <ul>
+                    <li>Análisis crítico de literatura actualizada</li>
+                    <li>Discusión metodológica</li>
+                    <li>Intercambio de perspectivas multidisciplinarias</li>
+                    <li>Preparación de comentarios editoriales</li>
+                </ul>
+                <button class="btn" onclick="expresarInteres('Grupos de Lectura Crítica')">Unirse al Grupo</button>
+            </div>
+
+            <div class="service-card">
+                <h3>✍️ Co-autorías y Publicaciones</h3>
+                <p>Oportunidades para publicar como co-autor en investigaciones en curso:</p>
+                <ul>
+                    <li>Contribución en análisis de datos</li>
+                    <li>Redacción de secciones de manuscritos</li>
+                    <li>Revisión por pares interna</li>
+                    <li>Desarrollo de protocolos conjuntos</li>
+                </ul>
+                <button class="btn" onclick="expresarInteres('Co-autorías y Publicaciones')">Solicitar Información</button>
+            </div>
+
+            <div class="service-card">
+                <h3>🌐 Red de Egresados</h3>
+                <p>Mantente conectado con la comunidad de egresados de KKK:</p>
+                <ul>
+                    <li>Directorio de contactos profesionales</li>
+                    <li>Bolsa de trabajo y oportunidades académicas</li>
+                    <li>Eventos de networking</li>
+                    <li>Mentoría entre pares</li>
+                </ul>
+                <button class="btn" onclick="expresarInteres('Red de Egresados')">Unirme a la Red</button>
+            </div>
+
+            <div class="service-card">
+                <h3>🎪 Eventos Académicos</h3>
+                <p>Participa en la organización de eventos científicos:</p>
+                <ul>
+                    <li>Congresos y simposios</li>
+                    <li>Seminarios web (webinars)</li>
+                    <li>Talleres prácticos</li>
+                    <li>Jornadas de investigación</li>
+                </ul>
+                <button class="btn" onclick="expresarInteres('Eventos Académicos')">Voluntariado</button>
+            </div>
+
+            <div class="service-card">
+                <h3>💡 Incubadora de Ideas</h3>
+                <p>Comparte tus ideas de investigación y encuentra colaboradores:</p>
+                <ul>
+                    <li>Presentación de propuestas preliminares</li>
+                    <li>Feedback de expertos</li>
+                    <li>Búsqueda de coinvestigadores</li>
+                    <li>Identificación de fuentes de financiamiento</li>
+                </ul>
+                <button class="btn" onclick="expresarInteres('Incubadora de Ideas')">Presentar Idea</button>
+            </div>
+        </div>
+
+        <!-- Current Collaborations -->
+        <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+            <h2 style="color: #2c3e50; margin-bottom: 1rem;">Colaboraciones Activas</h2>
+            <p style="color: #7f8c8d; margin-bottom: 1.5rem;">Proyectos actuales con participación de estudiantes y egresados:</p>
+            
+            <div style="display: grid; gap: 1rem;">
+                <div style="padding: 1rem; background: #ecf0f1; border-radius: 5px; border-left: 4px solid #3498db;">
+                    <strong>Red Latinoamericana de Estadística en Salud</strong>
+                    <p style="color: #7f8c8d; margin-top: 0.5rem;">Colaboración con instituciones de México, Colombia, Argentina y Chile</p>
+                </div>
+                <div style="padding: 1rem; background: #ecf0f1; border-radius: 5px; border-left: 4px solid #27ae60;">
+                    <strong>Consorcio de Investigación en Metodología</strong>
+                    <p style="color: #7f8c8d; margin-top: 0.5rem;">Desarrollo de guías metodológicas para investigación en salud</p>
+                </div>
+                <div style="padding: 1rem; background: #ecf0f1; border-radius: 5px; border-left: 4px solid #f39c12;">
+                    <strong>Iniciativa de Ciencia Abierta</strong>
+                    <p style="color: #7f8c8d; margin-top: 0.5rem;">Promoción de prácticas de investigación abierta y reproducible</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact for Collaborations -->
+        <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #2c3e50, #3498db); color: white; border-radius: 10px;">
+            <h2 style="margin-bottom: 1rem;">¿Quieres colaborar?</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">El profesor Karell Rafael Vazquez Argote está siempre abierto a nuevas colaboraciones académicas</p>
+            <p style="font-size: 1.2rem;"><strong>karell0079@gmail.com</strong></p>
+            <p style="margin-top: 1rem;">ORCID: <a href="https://orcid.org/my-orcid?orcid=0000-0003-3860-5702" target="_blank" style="color: #3498db;">0000-0003-3860-5702</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 KKK - Todos los derechos reservados</p>
+            <p>Prof. Karell Rafael Vazquez Argote | karell0079@gmail.com</p>
+            <p>ORCID: <a href="https://orcid.org/my-orcid?orcid=0000-0003-3860-5702" target="_blank">0000-0003-3860-5702</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Verificar autenticación
+        function checkAuth() {
+            const email = localStorage.getItem('studentEmail');
+            const code = localStorage.getItem('studentCode');
+            
+            if (!email || !code) {
+                window.location.href = '../index.html';
+                return false;
+            }
+            
+            document.getElementById('user-name').textContent = localStorage.getItem('studentName') || 'Estudiante';
+            document.getElementById('user-initials').textContent = (localStorage.getItem('studentName') || 'E')[0].toUpperCase();
+            
+            return true;
+        }
+
+        // Expresar interés en colaboración
+        function expresarInteres(colaboracion) {
+            const studentName = localStorage.getItem('studentName') || 'Estudiante';
+            const studentEmail = localStorage.getItem('studentEmail') || '';
+            
+            const subject = encodeURIComponent(`Interés en colaborar: ${colaboracion}`);
+            const body = encodeURIComponent(`Estimado Prof. Vazquez,\n\nMi nombre es ${studentName}.\n\nEstoy interesado en participar en: ${colaboracion}.\n\nMe gustaría recibir más información sobre cómo puedo contribuir.\n\nSaludos cordiales.`);
+            
+            window.location.href = `mailto:karell0079@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        // Cerrar sesión
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = '../index.html';
+        });
+
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+    </script>
+</body>
+</html>
