@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Educativa - KKK</title>
+    <meta name="description" content="Plataforma educativa de KKK para cursos especializados en investigación y estadística en salud.">
+    
+    <!-- Dublin Core Metadata -->
+    <meta name="DC.title" content="Plataforma Educativa - KKK">
+    <meta name="DC.creator" content="Karell Rafael Vazquez Argote">
+    <meta name="DC.contributor" content="SSSS">
+    <meta name="DC.date" content="2026-03-27">
+    <meta name="DC.subject" content="Educación, Investigación, Estadística, Salud">
+    
+    <!-- Author Information -->
+    <meta name="author" content="Karell Rafael Vazquez Argote">
+    <meta name="contact" content="karell0079@gmail.com">
+    <link rel="author" href="https://orcid.org/my-orcid?orcid=0000-0003-3860-5702">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "KKK",
+        "author": {
+            "@type": "Person",
+            "name": "Karell Rafael Vazquez Argote",
+            "email": "karell0079@gmail.com",
+            "identifier": "https://orcid.org/my-orcid?orcid=0000-0003-3860-5702"
+        },
+        "contributor": [
+            {
+                "@type": "Person",
+                "name": "SSSS"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Citation Metadata for Google Scholar -->
+    <meta name="citation_title" content="Plataforma Educativa - KKK">
+    <meta name="citation_author" content="Karell Rafael Vazquez Argote">
+    <meta name="citation_contributor" content="SSSS">
+    <meta name="citation_keywords" content="Educación, Investigación, Estadística, Salud, Metodología">
+    <meta name="keywords" content="Educación, Investigación, Estadística, Salud, Metodología">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Plataforma Educativa - KKK</h1>
+            <p>Cursos especializados en investigación y estadística en salud</p>
+            <p><strong>Prof. Karell Rafael Vazquez Argote</strong></p>
+            <p>Email: karell0079@gmail.com | ORCID: 0000-0003-3860-5702</p>
+        </div>
+    </header>
 
+    <main class="container">
+        <!-- Login Form -->
+        <div id="login-section" class="login-container">
+            <h2>Acceso a Estudiantes</h2>
+            <div id="alert-login" class="alert"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="student-email">Correo Electrónico</label>
+                    <input type="email" id="student-email" required placeholder="tu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="student-code">Código de Estudiante</label>
+                    <input type="text" id="student-code" required placeholder="Ej: EST-001">
+                </div>
+                <button type="submit" class="btn btn-full">Ingresar</button>
+            </form>
+            <p style="margin-top: 1rem; text-align: center; color: #7f8c8d; font-size: 0.9rem;">
+                ¿No tienes código? Contacta al profesor: karell0079@gmail.com
+            </p>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="spinner" style="display: none;"></div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 KKK - Todos los derechos reservados</p>
+            <p>Desarrollado por: Karell Rafael Vazquez Argote</p>
+            <p>Contacto: <a href="mailto:karell0079@gmail.com">karell0079@gmail.com</a></p>
+            <p>ORCID: <a href="https://orcid.org/my-orcid?orcid=0000-0003-3860-5702" target="_blank">0000-0003-3860-5702</a></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Configuración de Google Apps Script
+        const GAS_CONFIG = {
+            SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxkyiYtHqxxmsEDWStNy8UIP2bMR4KVGWXOBm5V7KfBnIvJMgx6LNmvDpx0Ai4Ek_CX/exec',
+            SHEET_ID: '15OY4xZ9L8447vsUkeT3NwIdqw2_vmaGbFJQtUdIf4gU'
+        };
+
+        // Manejo del login
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('student-email').value;
+            const code = document.getElementById('student-code').value;
+            const alertBox = document.getElementById('alert-login');
+            const loading = document.getElementById('loading');
+            
+            // Mostrar loading
+            loading.style.display = 'block';
+            alertBox.style.display = 'none';
+            
+            try {
+                // Validación vía Google Apps Script
+                const response = await fetch(`${GAS_CONFIG.SCRIPT_URL}?action=validateStudent&email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Guardar sesión
+                    localStorage.setItem('studentEmail', email);
+                    localStorage.setItem('studentCode', code);
+                    localStorage.setItem('studentName', data.name);
+                    
+                    // Redirigir al dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    showAlert(alertBox, 'error', data.message || 'Credenciales inválidas. Contacta al profesor.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(alertBox, 'error', 'Error de conexión. Intente nuevamente.');
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+
+        function showAlert(element, type, message) {
+            element.className = `alert alert-${type}`;
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        // Verificar si ya hay sesión activa
+        window.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('studentEmail')) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>
