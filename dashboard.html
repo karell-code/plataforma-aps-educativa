@@ -3,318 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - KKK</title>
+    <title>Dashboard - APS</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
+        header { background: #667eea; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        .welcome { margin-bottom: 2rem; }
+        .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        .course-card { background: white; border-radius: 10px; padding: 1.5rem; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; cursor: pointer; position: relative; overflow: hidden; }
+        .course-card:hover { transform: translateY(-5px); }
+        .course-card.locked { opacity: 0.6; background: #e0e0e0; cursor: not-allowed; }
+        .course-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+        .course-title { font-weight: bold; margin-bottom: 0.5rem; color: #333; }
+        .course-desc { font-size: 0.9rem; color: #666; }
+        .lock-badge { position: absolute; top: 10px; right: 10px; background: #e74c3c; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; }
+        .logout-btn { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; }
+        .admin-link { display: inline-block; margin-top: 2rem; color: #667eea; text-decoration: none; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container navbar-content">
-            <div class="logo">
-                <h2>KKK - Plataforma Educativa</h2>
-            </div>
-            <ul class="nav-links">
-                <li><a href="dashboard.html">Mis Cursos</a></li>
-                <li><a href="servicios.html">Servicios</a></li>
-                <li><a href="colaboraciones.html">Colaboraciones</a></li>
-                <li><a href="#" id="logout-btn">Cerrar Sesión</a></li>
-            </ul>
-            <div class="user-info">
-                <div class="user-avatar" id="user-initials">E</div>
-                <span id="user-name">Estudiante</span>
-            </div>
+    <header>
+        <h2>Panel de Estudiante</h2>
+        <div>
+            <span id="userName">Estudiante</span>
+            <a href="#" onclick="logout()" class="logout-btn">Salir</a>
         </div>
-    </nav>
+    </header>
 
-    <main class="container">
-        <header>
+    <div class="container">
+        <div class="welcome">
             <h1>Mis Cursos</h1>
             <p>Selecciona un curso para comenzar</p>
-        </header>
-
-        <!-- Alert Messages -->
-        <div id="alert-dashboard" class="alert"></div>
-
-        <!-- Loading Spinner -->
-        <div id="loading" class="spinner"></div>
-
-        <!-- Courses Grid -->
-        <div id="courses-grid" class="dashboard-grid" style="display: none;">
-            <!-- Los cursos se cargarán dinámicamente -->
         </div>
 
-        <!-- No Courses Message -->
-        <div id="no-courses" style="text-align: center; padding: 3rem; display: none;">
-            <h2>No tienes cursos matriculados</h2>
-            <p>Contacta al profesor para activar tus cursos:</p>
-            <p><strong>karell0079@gmail.com</strong></p>
+        <div id="coursesGrid" class="courses-grid">
+            <!-- Cursos cargados dinámicamente -->
+            <p>Cargando cursos...</p>
         </div>
-    </main>
 
-    <!-- Modal for Locked Courses -->
-    <div id="locked-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 style="color: #e74c3c; margin-bottom: 1rem;">⚠️ Curso No Disponible</h2>
-            <p id="locked-message">No tienes acceso a este curso.</p>
-            <div style="margin-top: 1.5rem;">
-                <p><strong>Opciones:</strong></p>
-                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                    <li>Contactar al profesor para solicitar matrícula</li>
-                    <li>Esperar a que el profesor active tu acceso</li>
-                </ul>
-                <a href="mailto:karell0079@gmail.com?subject=Solicitud%20de%20Matrícula" class="btn" style="margin-top: 1rem;">
-                    Solicitar Matrícula
-                </a>
-            </div>
+        <div style="text-align: center;">
+            <a href="servicios.html" class="admin-link">Ver Servicios de Asesoramiento</a> | 
+            <a href="sistema/colaboraciones.html" class="admin-link">Colaboraciones</a>
+            <br>
+            <a href="admin.html" id="adminLink" class="admin-link" style="display:none;">Ir al Panel Admin</a>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 KKK - Todos los derechos reservados</p>
-            <p>Prof. Karell Rafael Vazquez Argote | karell0079@gmail.com</p>
-            <p>ORCID: <a href="https://orcid.org/my-orcid?orcid=0000-0003-3860-5702" target="_blank">0000-0003-3860-5702</a></p>
-        </div>
-    </footer>
-
     <script>
-        // Configuración de Google Apps Script
         const GAS_CONFIG = {
             SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxkyiYtHqxxmsEDWStNy8UIP2bMR4KVGWXOBm5V7KfBnIvJMgx6LNmvDpx0Ai4Ek_CX/exec',
             SHEET_ID: '15OY4xZ9L8447vsUkeT3NwIdqw2_vmaGbFJQtUdIf4gU'
         };
 
-        // Lista completa de cursos disponibles en la plataforma
+        const userCodigo = localStorage.getItem('userCodigo');
+        const userName = localStorage.getItem('userName');
+        
+        if (!userCodigo) window.location.href = 'index.html';
+        document.getElementById('userName').textContent = userName || userCodigo;
+
+        // Lista maestra de cursos (se podría obtener del sheet también)
         const ALL_COURSES = [
-            {
-                id: 'APS-101',
-                code: 'APS-101',
-                title: 'Estadística Descriptiva',
-                description: 'Fundamentos de estadística descriptiva aplicados a la investigación en salud',
-                icon: '📊',
-                modules: 8
-            },
-            {
-                id: 'EPS-201',
-                code: 'EPS-201',
-                title: 'Estadística en Salud',
-                description: 'Métodos estadísticos avanzados para ciencias de la salud',
-                icon: '🏥',
-                modules: 10
-            },
-            {
-                id: 'MET-301',
-                code: 'MET-301',
-                title: 'Metodología de la Investigación',
-                description: 'Diseño y desarrollo de proyectos de investigación científica',
-                icon: '🔬',
-                modules: 12
-            },
-            {
-                id: 'EPI-401',
-                code: 'EPI-401',
-                title: 'Epidemiología',
-                description: 'Principios y aplicaciones de la epidemiología moderna',
-                icon: '🦠',
-                modules: 9
-            },
-            {
-                id: 'SIS-501',
-                code: 'SIS-501',
-                title: 'Sistemas de Salud',
-                description: 'Análisis y evaluación de sistemas de salud',
-                icon: '🏛️',
-                modules: 7
-            },
-            {
-                id: 'CUAL-601',
-                code: 'CUAL-601',
-                title: 'Investigación Cualitativa',
-                description: 'Métodos cualitativos en investigación en salud',
-                icon: '💬',
-                modules: 8
-            },
-            {
-                id: 'ETI-701',
-                code: 'ETI-701',
-                title: 'Ética en Investigación',
-                description: 'Principios éticos en investigación con seres humanos',
-                icon: '⚖️',
-                modules: 6
-            },
-            {
-                id: 'ART-801',
-                code: 'ART-801',
-                title: 'Redacción de Artículos Científicos',
-                description: 'Técnicas para escribir y publicar artículos científicos',
-                icon: '📝',
-                modules: 10
-            }
+            { id: 'APS-101', title: 'Bioestadística Aplicada', icon: '📊', desc: 'Estadística para ciencias de la salud' },
+            { id: 'APS-102', title: 'Epidemiología General', icon: '🦠', desc: 'Principios básicos de epidemiología' },
+            { id: 'APS-103', title: 'Investigación Científica', icon: '🔬', desc: 'Metodología de la investigación' },
+            { id: 'APS-104', title: 'Salud Pública', icon: '🏥', desc: 'Fundamentos de salud comunitaria' },
+            { id: 'APS-105', title: 'Gestión Hospitalaria', icon: '📋', desc: 'Administración de servicios de salud' },
+            { id: 'APS-106', title: 'Nutrición Clínica', icon: '🍎', desc: 'Nutrición aplicada a pacientes' },
+            { id: 'APS-107', title: 'Farmacología Básica', icon: '💊', desc: 'Principios de farmacoterapia' },
+            { id: 'APS-108', title: 'Ética Médica', icon: '⚖️', desc: 'Bioética y deontología profesional' }
         ];
 
-        // Verificar autenticación
-        function checkAuth() {
-            const email = localStorage.getItem('studentEmail');
-            const code = localStorage.getItem('studentCode');
-            
-            if (!email || !code) {
-                window.location.href = 'index.html';
-                return false;
-            }
-            
-            document.getElementById('user-name').textContent = localStorage.getItem('studentName') || 'Estudiante';
-            document.getElementById('user-initials').textContent = (localStorage.getItem('studentName') || 'E')[0].toUpperCase();
-            
-            return true;
-        }
-
-        // Cargar cursos del estudiante
         async function loadCourses() {
-            const email = localStorage.getItem('studentEmail');
-            const studentCode = localStorage.getItem('studentCode');
-            const grid = document.getElementById('courses-grid');
-            const loading = document.getElementById('loading');
-            const noCourses = document.getElementById('no-courses');
-            
-            loading.style.display = 'block';
-            grid.style.display = 'none';
-            noCourses.style.display = 'none';
-            
+            const grid = document.getElementById('coursesGrid');
             try {
-                // Obtener cursos matriculados desde Google Sheets
-                const response = await fetch(`${GAS_CONFIG.SCRIPT_URL}?action=getStudentCourses&email=${encodeURIComponent(email)}&code=${encodeURIComponent(studentCode)}`);
-                const data = await response.json();
+                const res = await fetch(`${GAS_CONFIG.SCRIPT_URL}?action=getEnrollments&codigo=${userCodigo}`);
+                const data = await res.json();
                 
-                if (data.success) {
-                    const enrolledCourses = data.courses || [];
-                    
-                    if (enrolledCourses.length === 0) {
-                        // Mostrar todos los cursos pero bloqueados
-                        renderAllCoursesLocked();
-                    } else {
-                        // Renderizar cursos con estado apropiado
-                        renderCourses(enrolledCourses);
-                    }
-                } else {
-                    showAlert('error', 'Error al cargar cursos');
+                let enrolledIds = [];
+                if (data.status === 'success') {
+                    enrolledIds = data.data.map(m => m.curso_id);
                 }
+
+                grid.innerHTML = '';
+                ALL_COURSES.forEach(course => {
+                    const isEnrolled = enrolledIds.includes(course.id);
+                    const card = document.createElement('div');
+                    card.className = `course-card ${isEnrolled ? '' : 'locked'}`;
+                    
+                    let clickAction = '';
+                    if (isEnrolled) {
+                        clickAction = `window.location.href='curso.html?curso=${course.id}'`;
+                    } else {
+                        clickAction = `alert('No tienes acceso a este curso. Contacta al profesor Karell Vazquez para solicitar matrícula.')`;
+                    }
+
+                    card.onclick = () => eval(clickAction);
+
+                    card.innerHTML = `
+                        ${!isEnrolled ? '<span class="lock-badge">🔒 Bloqueado</span>' : ''}
+                        <span class="course-icon">${course.icon}</span>
+                        <div class="course-title">${course.title}</div>
+                        <div class="course-desc">${course.desc}</div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                // Mostrar link admin si es admin
+                if (userCodigo === 'EST-ADMIN') {
+                    document.getElementById('adminLink').style.display = 'inline-block';
+                }
+
             } catch (error) {
-                console.error('Error:', error);
-                // En modo demo, mostrar todos los cursos bloqueados
-                renderAllCoursesLocked();
-            } finally {
-                loading.style.display = 'none';
+                console.error(error);
+                grid.innerHTML = '<p>Error cargando cursos. Intente más tarde.</p>';
             }
         }
 
-        // Renderizar todos los cursos (bloqueados por defecto)
-        function renderAllCoursesLocked() {
-            const grid = document.getElementById('courses-grid');
-            grid.innerHTML = '';
-            
-            ALL_COURSES.forEach(course => {
-                const card = createCourseCard(course, false);
-                grid.appendChild(card);
-            });
-            
-            grid.style.display = 'grid';
-        }
-
-        // Renderizar cursos con estado
-        function renderCourses(enrolledCourses) {
-            const grid = document.getElementById('courses-grid');
-            grid.innerHTML = '';
-            
-            // Crear un mapa de cursos inscritos
-            const enrolledMap = new Set(enrolledCourses.map(c => c.id || c.code));
-            
-            ALL_COURSES.forEach(course => {
-                const isActive = enrolledMap.has(course.id);
-                const card = createCourseCard(course, isActive);
-                grid.appendChild(card);
-            });
-            
-            grid.style.display = 'grid';
-        }
-
-        // Crear tarjeta de curso
-        function createCourseCard(course, isActive) {
-            const card = document.createElement('div');
-            card.className = `course-card ${isActive ? 'active' : 'locked'}`;
-            
-            card.innerHTML = `
-                <span class="course-icon">${course.icon}</span>
-                <h3>${course.title}</h3>
-                <p>${course.description}</p>
-                <p style="margin-bottom: 1rem;"><strong>Código:</strong> ${course.code}</p>
-                <span class="course-status ${isActive ? 'status-active' : 'status-locked'}">
-                    ${isActive ? '✓ Matriculado' : '🔒 Bloqueado'}
-                </span>
-            `;
-            
-            card.addEventListener('click', () => {
-                if (isActive) {
-                    window.location.href = `curso.html?curso=${course.id}`;
-                } else {
-                    showLockedModal(course);
-                }
-            });
-            
-            return card;
-        }
-
-        // Mostrar modal de curso bloqueado
-        function showLockedModal(course) {
-            const modal = document.getElementById('locked-modal');
-            const message = document.getElementById('locked-message');
-            
-            message.textContent = `No tienes acceso al curso "${course.title}". Contacta al profesor para solicitar matrícula.`;
-            modal.style.display = 'block';
-            
-            // Actualizar enlace del botón
-            const btn = modal.querySelector('.btn');
-            btn.href = `mailto:karell0079@gmail.com?subject=Solicitud%20de%20Matrícula%20-%20${encodeURIComponent(course.title)}`;
-        }
-
-        // Mostrar alertas
-        function showAlert(type, message) {
-            const alertBox = document.getElementById('alert-dashboard');
-            alertBox.className = `alert alert-${type}`;
-            alertBox.textContent = message;
-            alertBox.style.display = 'block';
-            
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 5000);
-        }
-
-        // Cerrar sesión
-        document.getElementById('logout-btn').addEventListener('click', function(e) {
-            e.preventDefault();
+        function logout() {
             localStorage.clear();
             window.location.href = 'index.html';
-        });
+        }
 
-        // Cerrar modal
-        document.querySelector('.close-modal').addEventListener('click', function() {
-            document.getElementById('locked-modal').style.display = 'none';
-        });
-
-        // Cerrar modal al hacer clic fuera
-        window.addEventListener('click', function(e) {
-            const modal = document.getElementById('locked-modal');
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        // Inicializar
-        window.addEventListener('DOMContentLoaded', function() {
-            if (checkAuth()) {
-                loadCourses();
-            }
-        });
+        loadCourses();
     </script>
 </body>
 </html>
