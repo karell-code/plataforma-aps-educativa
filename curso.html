@@ -3,312 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso - KKK</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <title>Curso - APS</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
+        header { background: #764ba2; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .module-list { list-style: none; padding: 0; }
+        .module-item { background: white; margin-bottom: 1rem; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .module-title { font-size: 1.2rem; font-weight: bold; color: #333; margin-bottom: 0.5rem; }
+        .module-content { color: #555; line-height: 1.6; }
+        .back-btn { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; }
+        .progress-bar { height: 10px; background: #ddd; border-radius: 5px; margin-top: 1rem; overflow: hidden; }
+        .progress-fill { height: 100%; background: #4caf50; width: 0%; transition: width 0.3s; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container navbar-content">
-            <div class="logo">
-                <h2>KKK - Plataforma Educativa</h2>
-            </div>
-            <ul class="nav-links">
-                <li><a href="dashboard.html">Mis Cursos</a></li>
-                <li><a href="servicios.html">Servicios</a></li>
-                <li><a href="colaboraciones.html">Colaboraciones</a></li>
-                <li><a href="#" id="logout-btn">Cerrar Sesión</a></li>
-            </ul>
-            <div class="user-info">
-                <div class="user-avatar" id="user-initials">E</div>
-                <span id="user-name">Estudiante</span>
-            </div>
+    <header>
+        <h2 id="courseTitle">Cargando...</h2>
+        <a href="dashboard.html" class="back-btn">Volver al Dashboard</a>
+    </header>
+
+    <div class="container">
+        <div id="content">
+            <p>Cargando módulos...</p>
         </div>
-    </nav>
-
-    <main class="container">
-        <!-- Course Header -->
-        <div id="course-header" class="course-header">
-            <h1 id="course-title">Cargando...</h1>
-            <p id="course-description"></p>
-            <div class="course-progress">
-                <p><strong>Progreso:</strong> <span id="progress-text">0%</span></p>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
-                </div>
-            </div>
+        <div style="margin-top: 2rem;">
+            <h3>Tu Progreso</h3>
+            <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+            <p id="progressText">0% completado</p>
         </div>
-
-        <!-- Alert Messages -->
-        <div id="alert-course" class="alert"></div>
-
-        <!-- Modules List -->
-        <h2 style="margin-bottom: 1.5rem; color: #2c3e50;">Módulos del Curso</h2>
-        <ul id="modules-list" class="modules-list">
-            <!-- Los módulos se cargarán dinámicamente -->
-        </ul>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 KKK - Todos los derechos reservados</p>
-            <p>Prof. Karell Rafael Vazquez Argote | karell0079@gmail.com</p>
-            <p>ORCID: <a href="https://orcid.org/my-orcid?orcid=0000-0003-3860-5702" target="_blank">0000-0003-3860-5702</a></p>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Configuración de Google Apps Script
         const GAS_CONFIG = {
             SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxkyiYtHqxxmsEDWStNy8UIP2bMR4KVGWXOBm5V7KfBnIvJMgx6LNmvDpx0Ai4Ek_CX/exec',
             SHEET_ID: '15OY4xZ9L8447vsUkeT3NwIdqw2_vmaGbFJQtUdIf4gU'
         };
 
-        // Definición de cursos y sus módulos (temas)
-        const COURSES_DATA = {
-            'APS-101': {
-                title: 'Estadística Descriptiva',
-                description: 'Fundamentos de estadística descriptiva aplicados a la investigación en salud',
-                modules: [
-                    { id: 'm1', title: 'Introducción a la Estadística', description: 'Conceptos básicos y terminología estadística' },
-                    { id: 'm2', title: 'Medidas de Tendencia Central', description: 'Media, mediana y moda' },
-                    { id: 'm3', title: 'Medidas de Dispersión', description: 'Varianza, desviación estándar y rango' },
-                    { id: 'm4', title: 'Distribuciones de Frecuencia', description: 'Tablas y gráficos de frecuencias' },
-                    { id: 'm5', title: 'Representación Gráfica', description: 'Histogramas, boxplots y otros gráficos' },
-                    { id: 'm6', title: 'Análisis Exploratorio', description: 'Técnicas para explorar datos' },
-                    { id: 'm7', title: 'Aplicaciones en Salud', description: 'Casos prácticos en investigación en salud' },
-                    { id: 'm8', title: 'Evaluación Final', description: 'Examen y proyecto final' }
-                ]
-            },
-            'EPS-201': {
-                title: 'Estadística en Salud',
-                description: 'Métodos estadísticos avanzados para ciencias de la salud',
-                modules: [
-                    { id: 'm1', title: 'Bioestadística Fundamental', description: 'Principios de bioestadística' },
-                    { id: 'm2', title: 'Probabilidad en Salud', description: 'Conceptos probabilísticos aplicados' },
-                    { id: 'm3', title: 'Inferencia Estadística', description: 'Estimación y pruebas de hipótesis' },
-                    { id: 'm4', title: 'Comparación de Medias', description: 'Tests t y ANOVA' },
-                    { id: 'm5', title: 'Análisis de Varianza', description: 'ANOVA de uno y dos factores' },
-                    { id: 'm6', title: 'Regresión Lineal', description: 'Modelos de regresión simple y múltiple' },
-                    { id: 'm7', title: 'Regresión Logística', description: 'Modelos para variables dicotómicas' },
-                    { id: 'm8', title: 'Análisis de Supervivencia', description: 'Curvas de Kaplan-Meier y Cox' },
-                    { id: 'm9', title: 'Meta-análisis', description: 'Técnicas de síntesis de evidencia' },
-                    { id: 'm10', title: 'Proyecto Final', description: 'Aplicación integral de métodos' }
-                ]
-            },
-            'MET-301': {
-                title: 'Metodología de la Investigación',
-                description: 'Diseño y desarrollo de proyectos de investigación científica',
-                modules: [
-                    { id: 'm1', title: 'El Problema de Investigación', description: 'Formulación y delimitación' },
-                    { id: 'm2', title: 'Marco Teórico', description: 'Revisión de literatura' },
-                    { id: 'm3', title: 'Hipótesis y Variables', description: 'Operacionalización de variables' },
-                    { id: 'm4', title: 'Diseños de Investigación', description: 'Experimentales y no experimentales' },
-                    { id: 'm5', title: 'Población y Muestra', description: 'Muestreo probabilístico y no probabilístico' },
-                    { id: 'm6', title: 'Recolección de Datos', description: 'Instrumentos y técnicas' },
-                    { id: 'm7', title: 'Validez y Confiabilidad', description: 'Control de calidad en investigación' },
-                    { id: 'm8', title: 'Análisis de Datos', description: 'Procesamiento y análisis' },
-                    { id: 'm9', title: 'Interpretación de Resultados', description: 'Discusión y conclusiones' },
-                    { id: 'm10', title: 'Redacción del Informe', description: 'Estructura del informe final' },
-                    { id: 'm11', title: 'Presentación de Resultados', description: 'Comunicación científica' },
-                    { id: 'm12', title: 'Proyecto Final', description: 'Protocolo completo de investigación' }
-                ]
-            },
-            'EPI-401': {
-                title: 'Epidemiología',
-                description: 'Principios y aplicaciones de la epidemiología moderna',
-                modules: [
-                    { id: 'm1', title: 'Introducción a la Epidemiología', description: 'Historia y conceptos fundamentales' },
-                    { id: 'm2', title: 'Medidas de Frecuencia', description: 'Incidencia, prevalencia y mortalidad' },
-                    { id: 'm3', title: 'Medidas de Asociación', description: 'Riesgo relativo y odds ratio' },
-                    { id: 'm4', title: 'Diseños Epidemiológicos I', description: 'Estudios descriptivos' },
-                    { id: 'm5', title: 'Diseños Epidemiológicos II', description: 'Estudios analíticos' },
-                    { id: 'm6', title: 'Sesgos y Confusión', description: 'Control de errores sistemáticos' },
-                    { id: 'm7', title: 'Epidemiología Clínica', description: 'Diagnóstico y pronóstico' },
-                    { id: 'm8', title: 'Vigilancia Epidemiológica', description: 'Sistemas de vigilancia' },
-                    { id: 'm9', title: 'Brotes y Epidemias', description: 'Investigación de brotes' }
-                ]
-            },
-            'SIS-501': {
-                title: 'Sistemas de Salud',
-                description: 'Análisis y evaluación de sistemas de salud',
-                modules: [
-                    { id: 'm1', title: 'Conceptos de Sistema de Salud', description: 'Definiciones y componentes' },
-                    { id: 'm2', title: 'Modelos de Sistemas', description: 'Tipologías internacionales' },
-                    { id: 'm3', title: 'Financiamiento en Salud', description: 'Fuentes y mecanismos' },
-                    { id: 'm4', title: 'Prestación de Servicios', description: 'Organización y gestión' },
-                    { id: 'm5', title: 'Recursos Humanos', description: 'Gestión del talento humano' },
-                    { id: 'm6', title: 'Evaluación de Sistemas', description: 'Indicadores de desempeño' },
-                    { id: 'm7', title: 'Políticas de Salud', description: 'Formulación e implementación' }
-                ]
-            },
-            'CUAL-601': {
-                title: 'Investigación Cualitativa',
-                description: 'Métodos cualitativos en investigación en salud',
-                modules: [
-                    { id: 'm1', title: 'Fundamentos Epistemológicos', description: 'Paradigmas cualitativos' },
-                    { id: 'm2', title: 'Diseños Cualitativos', description: 'Fenomenología, etnografía, teoría fundamentada' },
-                    { id: 'm3', title: 'Muestreo Cualitativo', description: 'Estrategias de selección' },
-                    { id: 'm4', title: 'Recolección de Datos I', description: 'Entrevistas en profundidad' },
-                    { id: 'm5', title: 'Recolección de Datos II', description: 'Grupos focales y observación' },
-                    { id: 'm6', title: 'Análisis de Contenido', description: 'Técnicas de codificación' },
-                    { id: 'm7', title: 'Análisis Temático', description: 'Identificación de patrones' },
-                    { id: 'm8', title: 'Rigor Científico', description: 'Credibilidad y transferibilidad' }
-                ]
-            },
-            'ETI-701': {
-                title: 'Ética en Investigación',
-                description: 'Principios éticos en investigación con seres humanos',
-                modules: [
-                    { id: 'm1', title: 'Principios Bioéticos', description: 'Autonomía, beneficencia, no maleficencia, justicia' },
-                    { id: 'm2', title: 'Consentimiento Informado', description: 'Proceso y documentación' },
-                    { id: 'm3', title: 'Comités de Ética', description: 'Funciones y procedimientos' },
-                    { id: 'm4', title: 'Investigación con Vulnerables', description: 'Protección de poblaciones especiales' },
-                    { id: 'm5', title: 'Confidencialidad', description: 'Protección de datos personales' },
-                    { id: 'm6', title: 'Publicación Responsable', description: 'Integridad científica' }
-                ]
-            },
-            'ART-801': {
-                title: 'Redacción de Artículos Científicos',
-                description: 'Técnicas para escribir y publicar artículos científicos',
-                modules: [
-                    { id: 'm1', title: 'Estructura IMRYD', description: 'Introducción, Métodos, Resultados, Discusión' },
-                    { id: 'm2', title: 'Título y Resumen', description: 'Cómo crear impacto' },
-                    { id: 'm3', title: 'Introducción Efectiva', description: 'Planteamiento del problema' },
-                    { id: 'm4', title: 'Sección de Métodos', description: 'Descripción detallada y reproducible' },
-                    { id: 'm5', title: 'Presentación de Resultados', description: 'Tablas y figuras' },
-                    { id: 'm6', title: 'Discusión Sólida', description: 'Interpretación y comparación' },
-                    { id: 'm7', title: 'Conclusiones Pertinentes', description: 'Implicaciones prácticas' },
-                    { id: 'm8', title: 'Referencias Bibliográficas', description: 'Estilos de citación' },
-                    { id: 'm9', title: 'Selección de Revista', description: 'Factor de impacto y alcance' },
-                    { id: 'm10', title: 'Proceso de Revisión', description: 'Respuesta a revisores' }
-                ]
-            }
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('curso');
+        const userCodigo = localStorage.getItem('userCodigo');
+
+        const COURSE_DATA = {
+            'APS-101': { title: 'Bioestadística Aplicada', modules: ['Introducción a la estadística', 'Medidas de tendencia central', 'Distribuciones de probabilidad', 'Pruebas de hipótesis'] },
+            'APS-102': { title: 'Epidemiología General', modules: ['Conceptos básicos', 'Medidas de frecuencia', 'Estudios observacionales', 'Sesgos y confusión'] },
+            'APS-103': { title: 'Investigación Científica', modules: ['El problema de investigación', 'Marco teórico', 'Metodología', 'Análisis de resultados'] },
+            'APS-104': { title: 'Salud Pública', modules: ['Historia de la salud pública', 'Determinantes sociales', 'Programas de prevención', 'Políticas sanitarias'] },
+            'APS-105': { title: 'Gestión Hospitalaria', modules: ['Organización hospitalaria', 'Gestión de recursos', 'Calidad asistencial', 'Legislación sanitaria'] },
+            'APS-106': { title: 'Nutrición Clínica', modules: ['Evaluación nutricional', 'Dietoterapia', 'Nutrición enteral/parenteral', 'Patologías específicas'] },
+            'APS-107': { title: 'Farmacología Básica', modules: ['Farmacocinética', 'Farmacodinamia', 'Sistemas orgánicos', 'Interacciones medicamentosas'] },
+            'APS-108': { title: 'Ética Médica', modules: ['Principios bioéticos', 'Consentimiento informado', 'Confidencialidad', 'Dilemas éticos'] }
         };
 
-        // Verificar autenticación
-        function checkAuth() {
-            const email = localStorage.getItem('studentEmail');
-            const code = localStorage.getItem('studentCode');
-            
-            if (!email || !code) {
-                window.location.href = '../index.html';
-                return false;
-            }
-            
-            document.getElementById('user-name').textContent = localStorage.getItem('studentName') || 'Estudiante';
-            document.getElementById('user-initials').textContent = (localStorage.getItem('studentName') || 'E')[0].toUpperCase();
-            
-            return true;
-        }
-
-        // Obtener parámetro de URL
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
-        // Cargar curso
-        function loadCourse() {
-            const courseId = getUrlParameter('curso');
-            
-            if (!courseId || !COURSES_DATA[courseId]) {
-                showAlert('error', 'Curso no encontrado');
+        async function loadCourse() {
+            if (!courseId || !COURSE_DATA[courseId]) {
+                document.getElementById('content').innerHTML = '<p>Curso no encontrado.</p>';
                 return;
             }
-            
-            const course = COURSES_DATA[courseId];
-            
-            // Actualizar header
-            document.getElementById('course-title').textContent = course.title;
-            document.getElementById('course-description').textContent = course.description;
-            
-            // Cargar progreso desde Google Sheets
-            loadProgress(courseId, course.modules.length);
-            
-            // Renderizar módulos (sin numeración visible)
-            renderModules(courseId, course.modules);
-        }
 
-        // Renderizar módulos
-        function renderModules(courseId, modules) {
-            const list = document.getElementById('modules-list');
-            list.innerHTML = '';
-            
-            modules.forEach((module, index) => {
-                const item = document.createElement('li');
-                item.className = 'module-item';
-                item.innerHTML = `
-                    <h3>${module.title}</h3>
-                    <p>${module.description}</p>
-                `;
-                
-                item.addEventListener('click', () => {
-                    // Navegar al módulo específico
-                    window.location.href = `modulo.html?curso=${courseId}&modulo=${module.id}`;
-                });
-                
-                list.appendChild(item);
-            });
-        }
+            const course = COURSE_DATA[courseId];
+            document.getElementById('courseTitle').textContent = course.title;
 
-        // Cargar progreso
-        async function loadProgress(courseId, totalModules) {
-            const email = localStorage.getItem('studentEmail');
-            const studentCode = localStorage.getItem('studentCode');
-            
+            // Cargar progreso
             try {
-                const response = await fetch(`${GAS_CONFIG.SCRIPT_URL}?action=getProgress&email=${encodeURIComponent(email)}&code=${encodeURIComponent(studentCode)}&curso=${courseId}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    const completedModules = data.completed || 0;
-                    const percentage = Math.round((completedModules / totalModules) * 100);
-                    
-                    document.getElementById('progress-text').textContent = `${percentage}%`;
-                    document.getElementById('progress-fill').style.width = `${percentage}%`;
-                    
-                    // Marcar módulos completados
-                    markCompletedModules(data.completedModules || []);
+                const res = await fetch(`${GAS_CONFIG.SCRIPT_URL}?action=getProgress&codigo=${userCodigo}&curso=${courseId}`);
+                const data = await res.json();
+                let completedModules = 0;
+                if (data.status === 'success' && data.data) {
+                    completedModules = data.data.length; // Asumiendo que devuelve lista de módulos completados
                 }
-            } catch (error) {
-                console.error('Error loading progress:', error);
-            }
+                const percent = Math.round((completedModules / course.modules.length) * 100);
+                document.getElementById('progressFill').style.width = `${percent}%`;
+                document.getElementById('progressText').textContent = `${percent}% completado`;
+            } catch (e) { console.log('Error cargando progreso', e); }
+
+            const html = `<ul class="module-list">
+                ${course.modules.map((mod, i) => `
+                    <li class="module-item">
+                        <div class="module-title">Tema ${i+1}: ${mod}</div>
+                        <div class="module-content">Contenido del módulo disponible próximamente. Contacto: karell0079@gmail.com</div>
+                    </li>
+                `).join('')}
+            </ul>`;
+            document.getElementById('content').innerHTML = html;
         }
 
-        // Marcar módulos completados
-        function markCompletedModules(completedIds) {
-            const items = document.querySelectorAll('.module-item');
-            items.forEach((item, index) => {
-                if (completedIds.includes(index)) {
-                    item.classList.add('completed');
-                }
-            });
-        }
-
-        // Mostrar alertas
-        function showAlert(type, message) {
-            const alertBox = document.getElementById('alert-course');
-            alertBox.className = `alert alert-${type}`;
-            alertBox.textContent = message;
-            alertBox.style.display = 'block';
-        }
-
-        // Cerrar sesión
-        document.getElementById('logout-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.clear();
-            window.location.href = '../index.html';
-        });
-
-        // Inicializar
-        window.addEventListener('DOMContentLoaded', function() {
-            if (checkAuth()) {
-                loadCourse();
-            }
-        });
+        loadCourse();
     </script>
 </body>
 </html>
