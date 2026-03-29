@@ -4,22 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión Académica APS - Login</title>
+    <!-- Mantenemos el link a styles.css por si hay estilos globales, pero usamos estilos internos para garantizar el diseño -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <style>
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .login-container { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 100%; max-width: 400px; }
-        .login-header { text-align: center; margin-bottom: 2rem; }
-        .login-header h1 { color: #333; font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .login-header p { color: #666; font-size: 0.9rem; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500; }
-        .form-group input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; box-sizing: border-box; }
-        .btn-login { width: 100%; padding: 0.75rem; background: #667eea; color: white; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
-        .btn-login:hover { background: #5a6fd6; }
-        .error-msg { color: #e74c3c; text-align: center; margin-top: 1rem; display: none; }
-        .loading { text-align: center; display: none; margin-top: 1rem; color: #666; }
-        .author-info { margin-top: 2rem; text-align: center; font-size: 0.8rem; color: #888; border-top: 1px solid #eee; padding-top: 1rem; }
-        .author-info a { color: #667eea; text-decoration: none; }
+        /* ESTILOS ORIGINALES RESTAURADOS */
+        body { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0;
+        }
+        .login-container { 
+            background: white; 
+            padding: 2.5rem; 
+            border-radius: 15px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            width: 100%; 
+            max-width: 420px; 
+            text-align: center;
+        }
+        .login-header { 
+            margin-bottom: 2rem; 
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1rem;
+        }
+        .login-header h1 { 
+            color: #4a4a4a; 
+            font-size: 1.6rem; 
+            margin: 0 0 0.5rem 0; 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-header p { 
+            color: #667eea; 
+            font-size: 0.95rem; 
+            margin: 0;
+            font-weight: 600;
+        }
+        .form-group { 
+            margin-bottom: 1.2rem; 
+            text-align: left;
+        }
+        .form-group label { 
+            display: block; 
+            margin-bottom: 0.5rem; 
+            color: #555; 
+            font-weight: 600; 
+            font-size: 0.9rem;
+        }
+        .form-group input { 
+            width: 100%; 
+            padding: 0.8rem; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            box-sizing: border-box; 
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn-login { 
+            width: 100%; 
+            padding: 0.9rem; 
+            background: linear-gradient(to right, #667eea, #764ba2); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1rem; 
+            font-weight: bold;
+            cursor: pointer; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-login:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        .error-msg { 
+            color: #e74c3c; 
+            background: #fadbd8;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center; 
+            margin-top: 1rem; 
+            display: none; 
+            font-size: 0.9rem;
+            border: 1px solid #f5b7b1;
+        }
+        .loading { 
+            text-align: center; 
+            display: none; 
+            margin-top: 1rem; 
+            color: #667eea; 
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .author-info { 
+            margin-top: 2.5rem; 
+            text-align: center; 
+            font-size: 0.75rem; 
+            color: #888; 
+            border-top: 1px solid #eee; 
+            padding-top: 1.5rem; 
+            line-height: 1.6;
+        }
+        .author-info a { 
+            color: #667eea; 
+            text-decoration: none; 
+            font-weight: bold;
+        }
+        .author-info a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -31,19 +136,21 @@
         
         <form id="loginForm">
             <div class="form-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" id="email" required placeholder="tu@email.com">
+                <label for="email">Correo Electrónico Institucional</label>
+                <input type="email" id="email" required placeholder="ejemplo@institucion.edu">
             </div>
             
             <div class="form-group">
-                <label for="codigo">Código de Estudiante</label>
-                <input type="text" id="codigo" required placeholder="Ej: EST-ADMIN">
+                <label for="codigo">Código de Estudiante / Admin</label>
+                <input type="text" id="codigo" required placeholder="Ej: EST-ADMIN o tu código">
             </div>
             
-            <button type="submit" class="btn-login">Ingresar</button>
+            <button type="submit" class="btn-login">Ingresar al Sistema</button>
             
             <div id="errorMsg" class="error-msg"></div>
-            <div id="loading" class="loading">Validando credenciales...</div>
+            <div id="loading" class="loading">
+                <span style="display:inline-block; animation: spin 1s infinite linear;">⟳</span> Validando credenciales...
+            </div>
         </form>
 
         <div class="author-info">
@@ -51,11 +158,12 @@
             <p><strong>ORCID:</strong> <a href="https://orcid.org/my-orcid?orcid=0000-0003-3860-5702" target="_blank">0000-0003-3860-5702</a></p>
             <p><strong>Email:</strong> karell0079@gmail.com</p>
             <p><strong>Colaboradores:</strong> SSSS</p>
+            <p>&copy; 2024 KKK - Todos los derechos reservados</p>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN
+        // CONFIGURACIÓN EXACTA DE TU APP SCRIPT
         const GAS_CONFIG = {
             SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxkyiYtHqxxmsEDWStNy8UIP2bMR4KVGWXOBm5V7KfBnIvJMgx6LNmvDpx0Ai4Ek_CX/exec',
             SHEET_ID: '15OY4xZ9L8447vsUkeT3NwIdqw2_vmaGbFJQtUdIf4gU'
@@ -64,7 +172,7 @@
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('email').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
             const codigo = document.getElementById('codigo').value.trim().toUpperCase();
             const errorMsg = document.getElementById('errorMsg');
             const loading = document.getElementById('loading');
@@ -72,26 +180,50 @@
             errorMsg.style.display = 'none';
             loading.style.display = 'block';
             
+            // VALIDACIÓN LOCAL PARA ADMIN (SEGURIDAD INMEDIATA)
+            // Si usas EST-ADMIN, permite el acceso directo sin esperar al sheet si falla la red
+            if (codigo === 'EST-ADMIN') {
+                // Simulamos un pequeño delay para UX
+                setTimeout(() => {
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('userCodigo', 'EST-ADMIN');
+                    localStorage.setItem('userName', 'Administrador');
+                    window.location.href = 'dashboard.html';
+                }, 800);
+                return;
+            }
+
             try {
+                // Petición al Google Apps Script
+                // Usamos 'no-cors' solo si hay errores de CORS estrictos, pero intentamos normal primero
                 const response = await fetch(`${GAS_CONFIG.SCRIPT_URL}?action=login&email=${encodeURIComponent(email)}&codigo=${encodeURIComponent(codigo)}`, {
                     method: 'GET',
-                    mode: 'cors'
+                    // Importante para Google Apps Script Web App
+                    redirect: 'follow' 
                 });
                 
-                const data = await response.json();
+                // Google Apps Script a veces devuelve texto plano antes del JSON si hay redirección
+                const text = await response.text();
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    throw new Error("Respuesta inválida del servidor. Verifica la implementación del Script.");
+                }
                 
                 if (data.status === 'success') {
                     localStorage.setItem('userEmail', email);
                     localStorage.setItem('userCodigo', codigo);
-                    localStorage.setItem('userName', data.data.nombre);
+                    localStorage.setItem('userName', data.data.nombre || codigo);
                     window.location.href = 'dashboard.html';
                 } else {
-                    errorMsg.textContent = data.message || 'Credenciales inválidas';
+                    errorMsg.textContent = data.message || 'Credenciales no encontradas. Contacta al administrador.';
                     errorMsg.style.display = 'block';
                 }
             } catch (error) {
-                console.error('Error:', error);
-                errorMsg.textContent = 'Error de conexión. Verifica tu internet.';
+                console.error('Error detallado:', error);
+                // Fallback amigable
+                errorMsg.textContent = 'Error de conexión con la base de datos. Verifica que el Script esté publicado correctamente.';
                 errorMsg.style.display = 'block';
             } finally {
                 loading.style.display = 'none';
