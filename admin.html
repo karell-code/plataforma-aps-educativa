@@ -3,372 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - KKK</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <title>Admin Panel - APS</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #fff; margin: 0; padding: 2rem; }
+        .header { display: flex; justify-content: space-between; margin-bottom: 2rem; border-bottom: 2px solid #667eea; padding-bottom: 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #667eea; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .btn { padding: 5px 10px; cursor: pointer; border: none; border-radius: 3px; color: white; }
+        .btn-grant { background-color: #4caf50; }
+        .btn-revoke { background-color: #f44336; }
+        .loading { text-align: center; font-style: italic; color: #666; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container navbar-content">
-            <div class="logo">
-                <h2>KKK - Panel Admin</h2>
-            </div>
-            <ul class="nav-links">
-                <li><a href="../dashboard.html">Vista Estudiante</a></li>
-                <li><a href="#" id="logout-btn">Cerrar Sesión</a></li>
-            </ul>
-            <div class="user-info">
-                <div class="user-avatar">A</div>
-                <span>Administrador</span>
-            </div>
-        </div>
-    </nav>
+    <div class="header">
+        <h1>Panel de Administración - KKK</h1>
+        <button onclick="logout()" style="background:#666; color:white; border:none; padding:10px; cursor:pointer;">Cerrar Sesión</button>
+    </div>
 
-    <main class="container">
-        <header>
-            <h1>Panel de Administración</h1>
-            <p>Gestión de estudiantes, cursos y matrículas</p>
-        </header>
-
-        <!-- Admin Authentication -->
-        <div id="admin-login" class="login-container">
-            <h2>Acceso de Administrador</h2>
-            <div id="alert-admin-login" class="alert"></div>
-            <form id="admin-login-form">
-                <div class="form-group">
-                    <label for="admin-password">Contraseña de Administrador</label>
-                    <input type="password" id="admin-password" required placeholder="Ingrese contraseña">
-                </div>
-                <button type="submit" class="btn btn-full">Acceder</button>
-            </form>
-        </div>
-
-        <!-- Admin Dashboard (hidden by default) -->
-        <div id="admin-dashboard" style="display: none;">
-            <!-- Statistics Cards -->
-            <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 2rem;">
-                <div class="service-card" style="text-align: center; border-left: 4px solid #3498db;">
-                    <span style="font-size: 2rem;">👥</span>
-                    <h3 id="total-students">0</h3>
-                    <p>Total Estudiantes</p>
-                </div>
-                <div class="service-card" style="text-align: center; border-left: 4px solid #27ae60;">
-                    <span style="font-size: 2rem;">📚</span>
-                    <h3 id="total-courses">8</h3>
-                    <p>Cursos Disponibles</p>
-                </div>
-                <div class="service-card" style="text-align: center; border-left: 4px solid #f39c12;">
-                    <span style="font-size: 2rem;">✅</span>
-                    <h3 id="total-enrollments">0</h3>
-                    <p>Matrículas Activas</p>
-                </div>
-                <div class="service-card" style="text-align: center; border-left: 4px solid #e74c3c;">
-                    <span style="font-size: 2rem;">📊</span>
-                    <h3 id="avg-progress">0%</h3>
-                    <p>Progreso Promedio</p>
-                </div>
-            </div>
-
-            <!-- Student Management -->
-            <div class="admin-panel">
-                <h2>Gestión de Estudiantes y Matrículas</h2>
-                
-                <!-- Add New Student -->
-                <div style="margin-bottom: 2rem; padding: 1.5rem; background: #ecf0f1; border-radius: 10px;">
-                    <h3 style="margin-bottom: 1rem;">Agregar Nuevo Estudiante</h3>
-                    <form id="add-student-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                        <div class="form-group">
-                            <label for="new-student-name">Nombre Completo</label>
-                            <input type="text" id="new-student-name" required placeholder="Nombre del estudiante">
-                        </div>
-                        <div class="form-group">
-                            <label for="new-student-email">Correo Electrónico</label>
-                            <input type="email" id="new-student-email" required placeholder="email@ejemplo.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="new-student-code">Código de Estudiante</label>
-                            <input type="text" id="new-student-code" required placeholder="Ej: EST-001">
-                        </div>
-                        <div class="form-group" style="display: flex; align-items: flex-end;">
-                            <button type="submit" class="btn" style="width: 100%;">Agregar Estudiante</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Students Table -->
-                <div style="overflow-x: auto;">
-                    <table class="student-table">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Estado</th>
-                                <th>Cursos Matriculados</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="students-table-body">
-                            <!-- Data will be loaded dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Course Enrollment Management -->
-            <div class="admin-panel">
-                <h2>Gestión de Matrículas por Curso</h2>
-                
-                <div style="margin-bottom: 1rem;">
-                    <label for="course-filter"><strong>Filtrar por curso:</strong></label>
-                    <select id="course-filter" style="padding: 0.5rem; margin-left: 0.5rem; border-radius: 5px; border: 1px solid #ccc;">
-                        <option value="all">Todos los cursos</option>
-                        <option value="APS-101">APS-101 - Estadística Descriptiva</option>
-                        <option value="EPS-201">EPS-201 - Estadística en Salud</option>
-                        <option value="MET-301">MET-301 - Metodología de la Investigación</option>
-                        <option value="EPI-401">EPI-401 - Epidemiología</option>
-                        <option value="SIS-501">SIS-501 - Sistemas de Salud</option>
-                        <option value="CUAL-601">CUAL-601 - Investigación Cualitativa</option>
-                        <option value="ETI-701">ETI-701 - Ética en Investigación</option>
-                        <option value="ART-801">ART-801 - Redacción de Artículos Científicos</option>
-                    </select>
-                </div>
-
-                <div id="enrollment-grid" class="dashboard-grid">
-                    <!-- Enrollment cards will be loaded here -->
-                </div>
-            </div>
-
-            <!-- Reports Section -->
-            <div class="admin-panel">
-                <h2>Informes y Reportes</h2>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                    <div class="service-card">
-                        <h3>📋 Informe por Curso</h3>
-                        <p>Obtén estadísticas detalladas de un curso específico</p>
-                        <button class="btn btn-full" onclick="generarInformeCurso()">Generar Informe</button>
-                    </div>
-                    
-                    <div class="service-card">
-                        <h3>👤 Informe por Estudiante</h3>
-                        <p>Visualiza el progreso individual de cualquier estudiante</p>
-                        <button class="btn btn-full" onclick="generarInformeEstudiante()">Ver Progreso</button>
-                    </div>
-                    
-                    <div class="service-card">
-                        <h3>📊 Exportar Datos</h3>
-                        <p>Descarga todos los datos en formato CSV o Excel</p>
-                        <button class="btn btn-full" onclick="exportarDatos()">Exportar CSV</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 KKK - Panel de Administración</p>
-            <p>Prof. Karell Rafael Vazquez Argote | karell0079@gmail.com</p>
-        </div>
-    </footer>
+    <h2>Gestión de Matrículas</h2>
+    <div id="loading" class="loading">Cargando datos de estudiantes...</div>
+    
+    <table id="adminTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Email</th>
+                <th>Código</th>
+                <th>Curso</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
 
     <script>
-        // Configuración
-        const ADMIN_PASSWORD = 'admin123'; // Cambiar en producción
         const GAS_CONFIG = {
             SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxkyiYtHqxxmsEDWStNy8UIP2bMR4KVGWXOBm5V7KfBnIvJMgx6LNmvDpx0Ai4Ek_CX/exec',
             SHEET_ID: '15OY4xZ9L8447vsUkeT3NwIdqw2_vmaGbFJQtUdIf4gU'
         };
 
-        // Lista de cursos
-        const COURSES = [
-            { id: 'APS-101', title: 'Estadística Descriptiva' },
-            { id: 'EPS-201', title: 'Estadística en Salud' },
-            { id: 'MET-301', title: 'Metodología de la Investigación' },
-            { id: 'EPI-401', title: 'Epidemiología' },
-            { id: 'SIS-501', title: 'Sistemas de Salud' },
-            { id: 'CUAL-601', title: 'Investigación Cualitativa' },
-            { id: 'ETI-701', title: 'Ética en Investigación' },
-            { id: 'ART-801', title: 'Redacción de Artículos Científicos' }
-        ];
-
-        // Login de administrador
-        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const password = document.getElementById('admin-password').value;
-            
-            if (password === ADMIN_PASSWORD) {
-                localStorage.setItem('isAdmin', 'true');
-                showAdminDashboard();
-            } else {
-                showAlert('alert-admin-login', 'error', 'Contraseña incorrecta');
-            }
-        });
-
-        // Mostrar dashboard de admin
-        function showAdminDashboard() {
-            document.getElementById('admin-login').style.display = 'none';
-            document.getElementById('admin-dashboard').style.display = 'block';
-            loadAdminData();
+        if (localStorage.getItem('userCodigo') !== 'EST-ADMIN') {
+            alert('Acceso denegado');
+            window.location.href = 'index.html';
         }
 
-        // Cargar datos de administración
-        async function loadAdminData() {
+        async function loadData() {
             try {
-                // En una implementación real, esto cargaría datos desde Google Sheets
-                // Por ahora, usamos datos de ejemplo
+                const res = await fetch(`${GAS_CONFIG.SCRIPT_URL}?action=getAllEnrollments`);
+                const data = await res.json();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('adminTable').style.display = 'table';
                 
-                // Cargar estudiantes
-                const students = await loadStudents();
-                renderStudentsTable(students);
-                
-                // Actualizar estadísticas
-                updateStatistics(students);
-                
-                // Cargar matrículas
-                loadEnrollments(students);
-            } catch (error) {
-                console.error('Error loading admin data:', error);
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = '';
+
+                if (data.status === 'success' && data.data.length > 0) {
+                    data.data.forEach(row => {
+                        const tr = document.createElement('tr');
+                        const isApproved = row.estado === 'Activo';
+                        tr.innerHTML = `
+                            <td>${row.nombre_estudiante || 'N/A'}</td>
+                            <td>${row.email}</td>
+                            <td>${row.codigo_estudiante}</td>
+                            <td>${row.curso_id}</td>
+                            <td style="color:${isApproved ? 'green' : 'red'}">${row.estado}</td>
+                            <td>
+                                <button class="btn ${isApproved ? 'btn-revoke' : 'btn-grant'}" 
+                                    onclick="toggleStatus('${row.email}', '${row.codigo_estudiante}', '${row.curso_id}', ${!isApproved})">
+                                    ${isApproved ? 'Desactivar' : 'Activar'}
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6">No hay matrículas registradas</td></tr>';
+                }
+            } catch (e) {
+                document.getElementById('loading').textContent = 'Error cargando datos: ' + e.message;
             }
         }
 
-        // Cargar estudiantes (simulado)
-        async function loadStudents() {
-            // En producción: fetch desde Google Apps Script
-            return [
-                { code: 'EST-001', name: 'Juan Pérez', email: 'juan@email.com', status: 'active', courses: ['APS-101', 'MET-301'] },
-                { code: 'EST-002', name: 'María García', email: 'maria@email.com', status: 'active', courses: ['APS-101'] },
-                { code: 'EST-003', name: 'Carlos López', email: 'carlos@email.com', status: 'inactive', courses: [] },
-                { code: 'EST-004', name: 'Ana Martínez', email: 'ana@email.com', status: 'active', courses: ['EPS-201', 'EPI-401', 'MET-301'] },
-                { code: 'EST-005', name: 'Luis Rodríguez', email: 'luis@email.com', status: 'active', courses: ['APS-101', 'EPS-201'] }
-            ];
-        }
-
-        // Renderizar tabla de estudiantes
-        function renderStudentsTable(students) {
-            const tbody = document.getElementById('students-table-body');
-            tbody.innerHTML = '';
+        async function toggleStatus(email, codigo, curso, activate) {
+            if(!confirm(`¿${activate ? 'Activar' : 'Desactivar'} acceso a ${curso}?`)) return;
             
-            students.forEach(student => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${student.code}</strong></td>
-                    <td>${student.name}</td>
-                    <td>${student.email}</td>
-                    <td>
-                        <label class="toggle-switch">
-                            <input type="checkbox" ${student.status === 'active' ? 'checked' : ''} onchange="toggleStudentStatus('${student.code}', this.checked)">
-                            <span class="slider"></span>
-                        </label>
-                    </td>
-                    <td>${student.courses.length} cursos</td>
-                    <td>
-                        <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;" onclick="manageEnrollments('${student.code}', '${student.name}')">Gestionar Cursos</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+            const action = activate ? 'approveEnrollment' : 'revokeEnrollment';
+            try {
+                const res = await fetch(`${GAS_CONFIG.SCRIPT_URL}?action=${action}&email=${email}&codigo=${codigo}&curso=${curso}`);
+                const data = await res.json();
+                if(data.status === 'success') {
+                    alert('Operación exitosa');
+                    loadData();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch(e) { alert('Error de conexión'); }
         }
 
-        // Actualizar estadísticas
-        function updateStatistics(students) {
-            const totalStudents = students.length;
-            const activeStudents = students.filter(s => s.status === 'active').length;
-            const totalEnrollments = students.reduce((sum, s) => sum + s.courses.length, 0);
-            const avgProgress = Math.round((totalEnrollments / (totalStudents * COURSES.length)) * 100) || 0;
-            
-            document.getElementById('total-students').textContent = totalStudents;
-            document.getElementById('total-enrollments').textContent = totalEnrollments;
-            document.getElementById('avg-progress').textContent = `${avgProgress}%`;
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
         }
 
-        // Cargar matrículas
-        function loadEnrollments(students) {
-            const grid = document.getElementById('enrollment-grid');
-            grid.innerHTML = '';
-            
-            COURSES.forEach(course => {
-                const enrolledCount = students.filter(s => s.courses.includes(course.id)).length;
-                
-                const card = document.createElement('div');
-                card.className = 'service-card';
-                card.innerHTML = `
-                    <h3>${course.title}</h3>
-                    <p style="font-size: 2rem; font-weight: bold; color: #3498db; margin: 1rem 0;">${enrolledCount}</p>
-                    <p>estudiantes matriculados</p>
-                    <button class="btn btn-full" style="margin-top: 1rem;" onclick="verDetalleCurso('${course.id}')">Ver Detalle</button>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // Toggle estado de estudiante
-        function toggleStudentStatus(code, isActive) {
-            console.log(`Toggle status for ${code}: ${isActive}`);
-            // En producción: actualizar en Google Sheets
-            alert(`Estado de ${code} actualizado a: ${isActive ? 'Activo' : 'Inactivo'}`);
-        }
-
-        // Gestionar matrículas
-        function manageEnrollments(code, name) {
-            alert(`Gestionar cursos para: ${name} (${code})\n\nEn una implementación completa, aquí se mostraría una interfaz para activar/desactivar cursos individuales.`);
-        }
-
-        // Ver detalle de curso
-        function verDetalleCurso(courseId) {
-            alert(`Mostrando detalle del curso: ${courseId}\n\nAquí se mostraría la lista de estudiantes matriculados y su progreso individual.`);
-        }
-
-        // Generar informe por curso
-        function generarInformeCurso() {
-            const courseFilter = document.getElementById('course-filter').value;
-            alert(`Generando informe para: ${courseFilter === 'all' ? 'todos los cursos' : courseFilter}`);
-        }
-
-        // Generar informe por estudiante
-        function generarInformeEstudiante() {
-            const studentCode = prompt('Ingrese el código del estudiante:');
-            if (studentCode) {
-                alert(`Mostrando informe de progreso para: ${studentCode}`);
-            }
-        }
-
-        // Exportar datos
-        function exportarDatos() {
-            alert('Exportando datos a CSV...\n\nEn una implementación completa, esto descargaría un archivo con todos los datos de estudiantes y matrículas.');
-        }
-
-        // Mostrar alertas
-        function showAlert(elementId, type, message) {
-            const alertBox = document.getElementById(elementId);
-            alertBox.className = `alert alert-${type}`;
-            alertBox.textContent = message;
-            alertBox.style.display = 'block';
-            
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 5000);
-        }
-
-        // Cerrar sesión
-        document.getElementById('logout-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.removeItem('isAdmin');
-            window.location.href = '../index.html';
-        });
-
-        // Filtro de cursos
-        document.getElementById('course-filter').addEventListener('change', function() {
-            loadAdminData();
-        });
-
-        // Inicializar
-        window.addEventListener('DOMContentLoaded', function() {
-            if (localStorage.getItem('isAdmin') === 'true') {
-                showAdminDashboard();
-            }
-        });
+        loadData();
     </script>
 </body>
 </html>
